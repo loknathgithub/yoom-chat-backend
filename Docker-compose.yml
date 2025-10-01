@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+#  mongo:
+#    image: mongo:5.0
+#    container_name: mongodb
+#    ports:
+#      - "27018:27017"
+#    volumes:
+#      - mongo-db:/data/db
+#    networks:
+#      - app-network
+
+  boot-app:
+    image: loknathsaha/chat-backend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8090"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb+srv://loknathsaha2004:Iamsurya2004@loknathdb.9xxyuz3.mongodb.net/chat-app
+
+
+# as using mongodb atlas, no need of mongodb service separately
+#    depends_on:
+#      - mongo
+#    networks:
+#      - app-network
+#
+#
+#volumes:
+#  mongo-db:
+#
+#networks:
+#  app-network:
