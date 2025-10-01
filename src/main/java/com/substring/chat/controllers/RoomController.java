@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/rooms")
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:3000")
 public class RoomController {
 
     @Autowired
@@ -31,13 +31,14 @@ public class RoomController {
         if (roomRepository.findByRoomId(roomId) != null) {
             //room is already there
             return ResponseEntity.badRequest().body("Room already exists!");
-
         }
 
         //create new room
         Room room = new Room();
         room.setRoomId(roomId);
         Room savedRoom = roomRepository.save(room);
+
+        // create a DTO which sends only the roomId and Id not messages to frontend
         return ResponseEntity.status(HttpStatus.CREATED).body(room);
 
 
@@ -47,7 +48,7 @@ public class RoomController {
     //get room: join
     @GetMapping("/find/{roomId}")
     public ResponseEntity<?> joinRoom(
-            @PathVariable String roomId
+            @PathVariable("roomId") String roomId
     ) {
 
         Room room = roomRepository.findByRoomId(roomId);
