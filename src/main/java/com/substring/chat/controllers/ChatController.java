@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Controller
 //@CrossOrigin("*")
@@ -33,15 +34,16 @@ public class ChatController {
         System.out.println("📩 Received message for room: " + decodedRoomId);
         System.out.println("📩 Payload: " + request.getSender() + " -> " + request.getContent());
 
-        Room room = roomRepository.findByRoomId(decodedRoomId);
+        Optional<Room> room = roomRepository.findByRoomId(decodedRoomId);
         Message message = new Message();
         message.setContent(request.getContent());
         message.setSender(request.getSender());
         message.setTimeStamp(LocalDateTime.now());
 
         if (room != null) {
-            room.getMessages().add(message);
-            roomRepository.save(room);
+            Room actualRoom = room.get();
+            actualRoom.getMessages().add(message);
+            roomRepository.save(actualRoom);
         } else {
             throw new RuntimeException("room not found !!");
         }
