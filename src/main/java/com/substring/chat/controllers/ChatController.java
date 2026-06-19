@@ -31,8 +31,8 @@ public class ChatController {
             MessageRequest request
     ) {
         String decodedRoomId = URLDecoder.decode(roomId, StandardCharsets.UTF_8);
-        System.out.println("📩 Received message for room: " + decodedRoomId);
-        System.out.println("📩 Payload: " + request.getSender() + " -> " + request.getContent());
+        System.out.println("Received message for room: " + decodedRoomId);
+        System.out.println("Payload: " + request.getSender() + " -> " + request.getContent());
 
         Optional<Room> room = roomRepository.findByRoomId(decodedRoomId);
         Message message = new Message();
